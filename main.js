@@ -2,10 +2,40 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+const modal = document.querySelector('#modal')
+modal.className = "hidden"
 
+const likeImgs = document.querySelectorAll("footer span")
+likeImgs.forEach((img) => {
+  console.log("img", img)
+  img.addEventListener('click', likePost)
+})
 
+function likePost(event) {
+  let heart = event.target.innerText
+  mimicServerCall()
+  .then(response => {
+    console.log("heart", heart)
 
+    if(heart === FULL_HEART) {
+      event.target.innerText = EMPTY_HEART
+      event.target.className = ""
+    } else {
+      event.target.innerText = FULL_HEART
+      event.target.className = "activated-heart"
+  }}
+
+  )
+  .catch((error)=> {
+    console.log(error)
+    modal.className = ""
+    modal.innerText = `${error}`
+    setTimeout(() => {
+      modal.className = "hidden"
+    }, 3000);
+
+  })
+}
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
